@@ -23,13 +23,13 @@ export async function GET() {
         const session = await auth()
         if (!session) { 
             return NextResponse.json({ message: "User not authenticated" }, { status: 401 });
-
-        }  
-
+        }   
 
         const profile = await prisma.profile.findUnique({ 
             where: {userId: session.user?.id},
-        }) 
+            include: { photos: { orderBy: { position: "asc" } } },
+        })  
+
 
         return NextResponse.json({profile}, {status: 200} )
     } 
@@ -68,8 +68,9 @@ export async function POST(request: NextRequest) {
 
     } 
     catch(err) {  
-        console.error("profile Err:", err )
         return NextResponse.json({message: err instanceof Error ? err.message : "Something went wrong"}, {status: 500})
+        console.error("profile error", err )
+
     }  
 }
 

@@ -3,9 +3,6 @@ import prisma from "@/lib/prisma";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
-
-
-
 export async function POST(req: Request) {
 
     const session = await auth()
@@ -13,7 +10,7 @@ export async function POST(req: Request) {
         return NextResponse.json("user not authenticated", {status: 401} )   
     } 
 
-    const path = await req.json() 
+    const {path} = await req.json() 
 
     const profile = await prisma.profile.findUnique({
         where: { 
@@ -22,7 +19,7 @@ export async function POST(req: Request) {
     }) 
 
     if (!profile) { 
-        return NextResponse.json("profile not found ", {status: 404})
+        return NextResponse.json("profile not found ", {status: 404}) 
     } 
 
     const {data, error} = await supabaseAdmin.storage
@@ -39,7 +36,4 @@ export async function POST(req: Request) {
     }) 
 
     return NextResponse.json({photo}, {status: 201} )
-
-
-    
 }

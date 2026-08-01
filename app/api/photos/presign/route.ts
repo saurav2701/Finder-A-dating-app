@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     }
     const {fileType, fileSize} = await req.json() 
 
-    if(!ALLOWED_TYPES) { 
+    if(!ALLOWED_TYPES.includes(fileType)) { 
         return NextResponse.json("unsupported File type", {status: 400})
     } 
     if(fileSize > Max_size_mb * 1024 * 1024) { 
@@ -22,13 +22,14 @@ export async function POST(req: Request) {
     } 
 
     const extension = fileType.split("/")[1] 
-    const path = `profiles/${session.user.id}/${randomUUID()}.${extension}}`
+    const path = `profiles/${session.user.id}/${randomUUID()}.${extension}`
 
     const {data, error} = await supabaseAdmin.storage
     .from("photos")
     .createSignedUploadUrl(path)
 
-    if (error || !data) { 
+    if (error || !data) {  
+        console.error("Presign err", error)
         return NextResponse.json({message: "could not create upload url"}, {status: 500} )
     } 
 

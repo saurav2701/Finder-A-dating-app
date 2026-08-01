@@ -51,6 +51,11 @@ export default function Card() {
   return (
     <div className="flex h-[500px] w-[400px] flex-col rounded-lg bg-black p-8">
       <h1 className="text-2xl text-white">{current.profile.name}</h1>
+      <img
+        src={current.profile.photos[0].url}
+        alt="profile-photo"
+        className="h-[300px] w-full rounded-lg object-cover mt-2"
+      />
 
       <div className="mt-auto flex justify-end gap-4">
         <button className="cursor-pointer text-3xl transition hover:scale-110">

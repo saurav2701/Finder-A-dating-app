@@ -3,6 +3,13 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Gender } from "../generated/prisma/enums";
+import PhotoUpload from "@/components/PhotoUpload";
+
+type Photo = {
+  id: string;
+  url: string;
+  position: number;
+};
 
 export default function Profile() {
   const [form, setForm] = useState({
@@ -13,7 +20,7 @@ export default function Profile() {
     jobTitle: "",
     school: "",
     locationName: "",
-    interestedIn: [] as ("MALE" | "FEMALE" | "NON_BINARY" | "OTHER")[],
+    interestedIn: "MALE" as "MALE" | "FEMALE" | "NON_BINARY" | "OTHER",
     minAgePref: 18,
     maxAgePref: 99,
     maxDistanceKm: 50,
@@ -22,6 +29,7 @@ export default function Profile() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [photos, setPhotos] = useState<Photo[]>([]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -33,7 +41,7 @@ export default function Profile() {
           setForm({
             name: data.profile.name ?? "",
             birthdate: data.profile.birthdate
-              ? data.profile.birthdate.slice(0, 10) // "2005-03-30T00:00:00.000Z" -> "2005-03-30"
+              ? data.profile.birthdate.slice(0, 10)
               : "",
             gender: data.profile.gender ?? "MALE",
             bio: data.profile.bio ?? "",
@@ -45,9 +53,9 @@ export default function Profile() {
             maxAgePref: data.profile.maxAgePref ?? 99,
             maxDistanceKm: data.profile.maxDistanceKm ?? 50,
           });
+          setPhotos(data.profile.photos ?? []);
         }
       } catch (err) {
-        // no existing profile or fetch failed — leave defaults, not fatal
       } finally {
         setInitialLoading(false);
       }
@@ -94,6 +102,22 @@ export default function Profile() {
       <h1 className="text-2xl font-bold text-black mb-8">
         Complete Your Profile
       </h1>
+      <div className="mb-8">
+        <h2>Photos</h2>
+        <div className="mb-4 grid grid-cols-3 gap-2">
+          {photos.map((photo) => (
+            <img
+              key={photo.key}
+              src={photo.url}
+              alt="profile-photo"
+              className="aspect-square w-full rounded-lg border border-gray-200 object-cover"
+            />
+          ))}
+        </div>
+        <PhotoUpload
+          onUploaded={(photo) => setPhotos((prev) => [...prev, photo])}
+        />
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name */}
@@ -237,7 +261,6 @@ export default function Profile() {
             name="minAgePref"
             type="number"
             min={18}
-            defaultValue={18}
             className="col-span-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-black"
           />
         </div>
@@ -255,7 +278,6 @@ export default function Profile() {
             type="number"
             min={18}
             max={99}
-            defaultValue={99}
             className="col-span-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-black"
           />
         </div>
@@ -272,7 +294,6 @@ export default function Profile() {
             value={form.maxDistanceKm}
             onChange={handleChange}
             min={1}
-            defaultValue={50}
             className="col-span-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-black"
           />
         </div>

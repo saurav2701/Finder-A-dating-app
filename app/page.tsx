@@ -9,7 +9,7 @@ export default async function Home() {
       <div>
         Welcome, {session?.user?.name ?? session.user?.email}
         <div className="mt-25 flex justify-center">
-          <Card />{" "}
+          <Card />
         </div>
       </div>
     );
