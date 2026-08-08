@@ -57,6 +57,8 @@ export default function Card() {
         className="h-[300px] w-full rounded-lg object-cover mt-2"
       />
 
+      {/* HIII */}
+
       <div className="mt-auto flex justify-end gap-4">
         <button className="cursor-pointer text-3xl transition hover:scale-110">
           ❤️
