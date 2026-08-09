@@ -1,0 +1,17 @@
+{
+    "name": "@finder/db",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "dependencies": {
+        "@prisma/client": "^6.0.0"
+    },
+    "devDependencies": {
+        "dotenv-cli": "^11.0.0",
+        "prisma": "^6.0.0"
+    },
+    "scripts": {
+        "generate": "prisma generate",
+        "migrate": "prisma migrate dev"
+    }
+}

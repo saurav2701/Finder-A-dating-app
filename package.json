@@ -1,0 +1,6 @@
+{
+    "name": "Finder",
+    "private": true,
+    "workspaces": ["apps/*", "packages/*"]
+} 
+

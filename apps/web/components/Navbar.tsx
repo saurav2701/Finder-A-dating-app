@@ -5,7 +5,8 @@ import { logout } from "@/lib/actions/auth";
 import { useSession } from "next-auth/react";
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const initial_letter = session?.user?.name?.[0] ?? "?";
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="flex justify-between">
@@ -25,8 +26,8 @@ export default function Navbar() {
                 Logout
               </button>
               <Link href={"/profile"}>
-                <button className="bg-red-500 text-white px-3 py-1 rounded-lg cursor-pointer hover:bg-red-600 mr-2 active:scale-95 text-sm">
-                  profile
+                <button className="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-600 active:scale-95">
+                  {initial_letter}
                 </button>
               </Link>
             </div>

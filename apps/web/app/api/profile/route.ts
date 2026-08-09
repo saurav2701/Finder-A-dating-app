@@ -1,6 +1,6 @@
 import { Gender } from "@/app/generated/prisma/enums";
 import { auth } from "@/auth";
-import prisma from "@/lib/prisma";
+import {prisma} from "@finder/db" 
 import { NextRequest, NextResponse } from "next/server";
 
 interface RegisterRequest {

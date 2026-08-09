@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Gender } from "../generated/prisma/enums";
 import PhotoUpload from "@/components/PhotoUpload";
+import { auth } from "@/auth";
+import { useSession } from "next-auth/react";
 
 type Photo = {
   id: string;
@@ -12,6 +14,7 @@ type Photo = {
 };
 
 export default function Profile() {
+  const { data: session } = useSession();
   const [form, setForm] = useState({
     name: "",
     birthdate: "",
@@ -54,6 +57,8 @@ export default function Profile() {
             maxDistanceKm: data.profile.maxDistanceKm ?? 50,
           });
           setPhotos(data.profile.photos ?? []);
+        } else if (session?.user?.name) {
+          setForm((prev) => ({ ...prev, name: session.user?.name ?? "" }));
         }
       } catch (err) {
       } finally {
