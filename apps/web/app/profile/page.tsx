@@ -6,6 +6,7 @@ import { Gender } from "../generated/prisma/enums";
 import PhotoUpload from "@/components/PhotoUpload";
 import { auth } from "@/auth";
 import { useSession } from "next-auth/react";
+import { logout } from "@/lib/actions/auth";
 
 type Photo = {
   id: string;
@@ -311,6 +312,12 @@ export default function Profile() {
             className="col-span-2 rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
           >
             {loading ? "Submitting...." : "Submit"}
+          </button>
+          <button
+            onClick={() => logout()}
+            className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 cursor-pointer active:scale-95 mr-2 text-sm"
+          >
+            Logout
           </button>
         </div>
       </form>

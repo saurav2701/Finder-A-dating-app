@@ -5,8 +5,21 @@ import { prisma } from "@finder/db";
 
 export default async function Home() {
   const session = await auth();
+  if (!session?.user?.id) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p className="text-gray-400 text-xl">Please log in to continue</p>
+        <Link href={"/login"}>
+          <button className="ml-2.5 text-red-400 py-1 px-2 hover:text-pink-500 cursor-pointer font-bold">
+            Login Now
+          </button>
+        </Link>
+      </div>
+    );
+  }
+
   const profile_data = await prisma.profile.findUnique({
-    where: { userId: session?.user.id },
+    where: { userId: session?.user?.id },
   });
 
   if (session && profile_data?.name && profile_data.birthdate)

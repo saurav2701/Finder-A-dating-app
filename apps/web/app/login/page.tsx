@@ -28,8 +28,8 @@ export default function LoginPage() {
       password: form.password,
       redirect: false,
     });
-    if (result.error) {
-      setError("Invalid Email or password");
+    if (result?.error) {
+      setError("Invalid email or password");
       setLoading(false);
       return;
     }
@@ -37,96 +37,111 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        {/* <img
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-          alt="Your Company"
-          className="mx-auto h-10 w-auto"
-        /> */}
-        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
-          Sign in to your account
+    <div className="flex min-h-screen flex-col justify-center bg-gray-50 px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center">
+        <Link href="/" className="text-3xl font-bold text-red-500">
+          Finder ❤️
+        </Link>
+        <h2 className="mt-6 text-xl font-semibold text-gray-900">
+          Welcome back
         </h2>
+        <p className="mt-1 text-sm text-gray-400">
+          Sign in to keep the conversation going
+        </p>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm/6 font-medium text-black"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                type="email"
-                name="email"
-                onChange={handleChange}
-                value={form.email}
-                required
-                autoComplete="email"
-                className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-              />
-            </div>
-          </div>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="rounded-lg bg-red-50 border border-red-100 px-3 py-2 text-sm text-red-500">
+                {error}
+              </div>
+            )}
 
-          <div>
-            <div className="flex items-center justify-between">
+            <div>
               <label
-                htmlFor="password"
-                className="block text-sm/6 font-medium text-black"
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
               >
-                Password
+                Email address
               </label>
-              <div className="text-sm">
+              <div className="mt-1.5">
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  onChange={handleChange}
+                  value={form.email}
+                  required
+                  autoComplete="email"
+                  className="block w-full rounded-lg bg-gray-50 px-3 py-2.5 text-sm text-gray-900 outline-none border border-gray-200 placeholder:text-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-100 transition"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </label>
                 <a
                   href="#"
-                  className="font-semibold text-indigo-400 hover:text-indigo-300"
+                  className="text-xs font-medium text-red-400 hover:text-red-500"
                 >
                   Forgot password?
                 </a>
               </div>
+              <div className="mt-1.5">
+                <input
+                  id="password"
+                  type="password"
+                  onChange={handleChange}
+                  value={form.password}
+                  name="password"
+                  required
+                  autoComplete="current-password"
+                  className="block w-full rounded-lg bg-gray-50 px-3 py-2.5 text-sm text-gray-900 outline-none border border-gray-200 placeholder:text-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-100 transition"
+                  placeholder="••••••••"
+                />
+              </div>
             </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                type="password"
-                onChange={handleChange}
-                value={form.password}
-                name="password"
-                required
-                autoComplete="current-password"
-                className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-black outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-              />
-            </div>
-          </div>
 
-          <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              disabled={loading}
+              className="w-full rounded-full bg-red-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-600 active:scale-95 transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Signing in..." : " Sign In"}
+              {loading ? "Signing in..." : "Sign in"}
             </button>
-          </div>
-        </form>
-        <button
-          onClick={() => login()}
-          className="flex items-center justify-center gap-2 rounded-lg border px-4 py-2 hover:bg-gray-100"
-        >
-          <FaGithub />
-          Continue with GitHub
-        </button>
+          </form>
 
-        <p className="mt-10 text-center text-sm/6 text-gray-400">
-          Not a member?
+          <div className="mt-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-gray-100" />
+            <span className="text-xs text-gray-400">or</span>
+            <div className="h-px flex-1 bg-gray-100" />
+          </div>
+
+          <button
+            onClick={() => login()}
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-full border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 active:scale-95 transition"
+          >
+            <FaGithub />
+            Continue with GitHub
+          </button>
+        </div>
+
+        <p className="mt-6 text-center text-sm text-gray-400">
+          Not a member?{" "}
           <Link
             href="/signup"
-            className="font-semibold text-indigo-400 hover:text-indigo-300"
+            className="font-semibold text-red-500 hover:text-red-600"
           >
-            Sign Up Now!
+            Sign up now
           </Link>
         </p>
       </div>
