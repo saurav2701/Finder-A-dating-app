@@ -33,4 +33,5 @@ Thumbs.db
 
 *.pem
 .turbo
-.next/
+.agents/
+.claude/
